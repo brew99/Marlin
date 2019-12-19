@@ -1625,7 +1625,6 @@
  * Use CRC checks and retries on the SD communication.
  */
 //#define SD_CHECK_AND_RETRY 
-// causes SD format popup in windows for BTT boards. comment out to allow mass storage via USB
 
 /**
  * LCD Menu Items
