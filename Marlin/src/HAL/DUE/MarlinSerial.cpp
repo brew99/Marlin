@@ -606,7 +606,7 @@ void MarlinSerial<Cfg>::printFloat(double number, uint8_t digits) {
 
   // Round correctly so that print(1.999, 2) prints as "2.00"
   double rounding = 0.5;
-  for (uint8_t i = 0; i < digits; ++i) rounding *= 0.1;
+  LOOP_L_N(i, digits) rounding *= 0.1;
   number += rounding;
 
   // Extract the integer part of the number and print it
@@ -629,23 +629,13 @@ void MarlinSerial<Cfg>::printFloat(double number, uint8_t digits) {
 
 // If not using the USB port as serial port
 #if SERIAL_PORT >= 0
-
-  // Preinstantiate
-  template class MarlinSerial<MarlinSerialCfg<SERIAL_PORT>>;
-
-  // Instantiate
-  MarlinSerial<MarlinSerialCfg<SERIAL_PORT>> customizedSerial1;
-
+  template class MarlinSerial<MarlinSerialCfg<SERIAL_PORT>>;      // Define
+  MarlinSerial<MarlinSerialCfg<SERIAL_PORT>> customizedSerial1;   // Instantiate
 #endif
 
-#ifdef SERIAL_PORT_2
-
-  // Preinstantiate
-  template class MarlinSerial<MarlinSerialCfg<SERIAL_PORT_2>>;
-
-  // Instantiate
-  MarlinSerial<MarlinSerialCfg<SERIAL_PORT_2>> customizedSerial2;
-
+#if defined(SERIAL_PORT_2) && SERIAL_PORT_2 >= 0
+  template class MarlinSerial<MarlinSerialCfg<SERIAL_PORT_2>>;    // Define
+  MarlinSerial<MarlinSerialCfg<SERIAL_PORT_2>> customizedSerial2; // Instantiate
 #endif
 
 #endif // ARDUINO_ARCH_SAM

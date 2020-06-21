@@ -38,8 +38,6 @@ extern "C" {
 #include "../../sd/cardreader.h"
 #include "../../inc/MarlinConfig.h"
 #include "../../core/millis_t.h"
-#include "HAL.h"
-#include "timers.h"
 
 extern uint32_t MSC_SD_Init(uint8_t pdrv);
 extern "C" int isLPC1769();
@@ -67,7 +65,7 @@ void HAL_init() {
     #endif
 
     // Flash status LED 3 times to indicate Marlin has started booting
-    for (uint8_t i = 0; i < 6; ++i) {
+    LOOP_L_N(i, 6) {
       TOGGLE(LED_PIN);
       delay(100);
     }
@@ -90,7 +88,7 @@ void HAL_init() {
 
   //debug_frmwrk_init();
   //_DBG("\n\nDebug running\n");
-  // Initialise the SD card chip select pins as soon as possible
+  // Initialize the SD card chip select pins as soon as possible
   #if PIN_EXISTS(SS)
     OUT_WRITE(SS_PIN, HIGH);
   #endif

@@ -151,7 +151,7 @@ public:
     // Hook for live z adjust action
     static void HandleLiveAdjustZ(DGUS_VP_Variable &var, void *val_ptr);
   #endif
-  #if FAN_COUNT > 0
+  #if HAS_FAN
     // Hook for fan control
     static void HandleFanControl(DGUS_VP_Variable &var, void *val_ptr);
   #endif
@@ -221,7 +221,7 @@ public:
     static void DGUSLCD_SendPrintAccTimeToDisplay(DGUS_VP_Variable &var);
     static void DGUSLCD_SendPrintsTotalToDisplay(DGUS_VP_Variable &var);
   #endif
-  #if FAN_COUNT > 0
+  #if HAS_FAN
     static void DGUSLCD_SendFanStatusToDisplay(DGUS_VP_Variable &var);
   #endif
   static void DGUSLCD_SendHeaterStatusToDisplay(DGUS_VP_Variable &var);
@@ -237,7 +237,7 @@ public:
     if (!var.memadr) return;
     union { unsigned char tmp[sizeof(T)]; T t; } x;
     unsigned char *ptr = (unsigned char*)val_ptr;
-    for (uint8_t i = 0; i < sizeof(T); i++) x.tmp[i] = ptr[sizeof(T) - i - 1];
+    LOOP_L_N(i, sizeof(T)) x.tmp[i] = ptr[sizeof(T) - i - 1];
     *(T*)var.memadr = x.t;
   }
 
